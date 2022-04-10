@@ -115,7 +115,7 @@ class App(tk.Frame):
         'machine at the specified path. The above code is what git displays while retriving '+
         'the repo. If the repo fails, there will be an error message. The follow line of '+
         'code was ran.', end='\n'*2)
-        print(f'git clone {repo}', end='\n') *2
+        print(f'git clone {repo}', end='\n'*2)
         # Entering project
         project = url_list[2].split('.')
         os.chdir(project[0])
