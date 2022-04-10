@@ -4,9 +4,11 @@
                     https://about.gitlab.com/images/press/git-cheat-sheet.pdf
 '''
 import os, subprocess, shutil
+from textwrap import wrap
 import tkinter as tk
 from tkinter import filedialog
 import webbrowser
+import time
 
 def check_git():
     if shutil.which('git') == None:
@@ -48,7 +50,7 @@ class App(tk.Frame):
         self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
         # Stage Menu Options
         self.stagemenu = tk.Menu(self.menubar, tearoff=0)
-        self.stagemenu.add_command(label="Status")
+        self.stagemenu.add_command(label="Status", command=self.status)
         self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Stage File(s)")
         self.stagemenu.add_command(label="Unstage File(s)")
@@ -84,9 +86,15 @@ class App(tk.Frame):
         self.project_label = tk.Label(self.root, text="No Project Currently Loaded", font=App.title,
                 anchor='center')
         self.project_path = tk.Label(self.root, text=self.project_path_string, font=App.information)
+        self.project_information = tk.Label(self.root, text='', font=App.information, wraplength=250, anchor='n')
+        self.project_commit_message = tk.Text(self.root, font=App.buttons) 
+        self.project_info_title = tk.Label(self.root, text="Terminal Outputs", font=App.title)
         # Placement
-        self.project_label.place(x=25, y=15, width=450, height=25)
-        self.project_path.place(x=25, y=50, width=450, height=50)
+        self.project_label.place(x=25, y=10, width=550, height=25)
+        self.project_path.place(x=25, y=40, width=550, height=30)
+        self.project_info_title.place(x=15, y=75, width=275, height=25)
+        self.project_information.place(x=15, y=110, width=275, height=375)
+        self.project_commit_message.place(x=310, y=100, width=275, height=375)
 
     def init_repo(self):
         # Open dialog box to select working folder
@@ -216,10 +224,16 @@ class App(tk.Frame):
         self.email_entry.place(x=0, y=0, width=300, height=25)
         self.update_email_btn.place(x=75, y=30, width=150, height=30)
 
+    def status(self):
+        os.system('cls || clear')
+        self.current_status = subprocess.getoutput('git status')
+        self.project_information.config(text=self.current_status)
+        print(self.current_status)
+
 if __name__ == '__main__':
     if check_git() == True:
         root = tk.Tk()
-        root.geometry('500x300')
+        root.geometry('600x500')
         root.title('GitPy')
         app = App(root=root)
         app.mainloop()
