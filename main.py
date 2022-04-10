@@ -30,7 +30,7 @@ class App(tk.Frame):
         self.setupmenu.add_command(label="Init Project", command=self.init_repo)
         self.setupmenu.add_command(label="Clone Project", command=self.clone_repo)
         self.setupmenu.add_separator()
-        self.setupmenu.add_command(label="Update Name")
+        self.setupmenu.add_command(label="Update Name", command=self.update_name)
         self.setupmenu.add_command(label="Update Email")
         self.setupmenu.add_separator()
         self.setupmenu.add_command(label="Exit", command=self.root.quit)
@@ -71,11 +71,12 @@ class App(tk.Frame):
     def frame(self):
         # Labels
         self.project_label = tk.Label(root, text="No Project Currently Loaded", font=App.title,
-                anchor='center')
-        self.project_path = tk.Label(root, text=self.project_path_string, font=App.information)
+                anchor='center', wraplength=300)
+        self.project_path = tk.Label(root, text=self.project_path_string, font=App.information,
+        wraplength=300)
         # Placement
-        self.project_label.place(x=100, y=15, width=300, height=25)
-        self.project_path.place(x=50, y=40, width=400, height=25)
+        self.project_label.place(x=100, y=15, width=450, height=50)
+        self.project_path.place(x=50, y=75, width=450, height=50)
 
     def init_repo(self):
         # Open dialog box to select working folder
@@ -101,17 +102,9 @@ class App(tk.Frame):
             self.project_path.config(text=self.project_path_string)
 
     def download_repo(self, repo, path):
-        ###########################################################################
-        #       This section of code needs to be put through testing for
-        #       error handling. When preforming actions as you should everything
-        #       works but pressing cancel throws errors
-        ###########################################################################
         # Preping local machine for repo download
         os.chdir(path)
         os.system('cls' if os.name == 'nt' else 'clear')
-        print('Current working Dicrectory')
-        os.system('cd' if os.name == 'nt' else 'pwd')
-        print()
         # Cloning Repo
         url_list = repo[8:].split('/')
         if url_list[0] == 'github.com' and url_list[2][-4:] == '.git':    
@@ -122,7 +115,17 @@ class App(tk.Frame):
         'machine at the specified path. The above code is what git displays while retriving '+
         'the repo. If the repo fails, there will be an error message. The follow line of '+
         'code was ran.', end='\n'*2)
-        print(f'git clone {repo}')
+        print(f'git clone {repo}', end='\n') *2
+        # Entering project
+        project = url_list[2].split('.')
+        os.chdir(project[0])
+        print('Current Directory')
+        os.system('cd')
+        self.project_path_string = os.getcwd()
+        # Updating frame
+        path_split = self.project_path_string.split('/')
+        self.project_label.config(text=f'Working on {path_split[-1].title()}')
+        self.project_path.config(text=self.project_path_string)
         # Closing repo cloning dialog box
         for widget in self.clone_window.winfo_children():
             widget.destroy()
@@ -146,6 +149,20 @@ class App(tk.Frame):
                     command=lambda: self.download_repo(self.url_entry.get(), self.project_path_string))
             self.url_entry.place(x=0, y=0, width=300, height=25)
             self.clone_btn.place(x=75, y=35, width=150, height=30)
+
+    def set_username(self, name):
+        print(f'Youve made it {name}')
+
+    def update_name(self):
+        self.update_name = tk.Tk()
+        self.update_name.geometry('300x75')
+        self.update_name.title('Update Name')
+        self.name_entry = tk.Entry(self.update_name)
+        self.update_name_btn = tk.Button(self.update_name, text='Set Name', font=App.buttons,
+            command=lambda: self.set_username(self.name_entry.get()))
+        # Placement
+        self.name_entry.place(x=0, y=0, width=300, height=25)
+        self.update_name_btn.place(x=75, y=30, width=150, height=30)
 
 if __name__ == '__main__':
     root = tk.Tk()
