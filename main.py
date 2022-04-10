@@ -151,14 +151,28 @@ class App(tk.Frame):
             self.clone_btn.place(x=75, y=35, width=150, height=30)
 
     def set_username(self, name):
-        print(f'Youve made it {name}')
+        # Clear terminal
+        os.system('cls || clear')
+        # Update username
+        name_update = f'git config --global user.name "{name}"'
+        os.system(name_update)
+        # Explination
+        print()
+        print('The above line changes how git sees you. The name assoicated with this '+
+        'command is how you are represented when you push your commits to a repo.', end='\n'*2)
+        print(f'The following command was ran: {name_update}')
+        print(f'Your new username is {name}')
+        # Close dialog box
+        for widget in self.update_name_frame.winfo_children():
+            widget.destroy()
+        self.update_name_frame.destroy()
 
     def update_name(self):
-        self.update_name = tk.Tk()
-        self.update_name.geometry('300x75')
-        self.update_name.title('Update Name')
-        self.name_entry = tk.Entry(self.update_name)
-        self.update_name_btn = tk.Button(self.update_name, text='Set Name', font=App.buttons,
+        self.update_name_frame = tk.Tk()
+        self.update_name_frame.geometry('300x75')
+        self.update_name_frame.title('Update Name')
+        self.name_entry = tk.Entry(self.update_name_frame)
+        self.update_name_btn = tk.Button(self.update_name_frame, text='Set Name', font=App.buttons,
             command=lambda: self.set_username(self.name_entry.get()))
         # Placement
         self.name_entry.place(x=0, y=0, width=300, height=25)
