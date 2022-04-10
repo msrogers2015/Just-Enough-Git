@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-# Source commands https://education.github.com/git-cheat-sheet-education.pdf
-
+''' Source commands https://education.github.com/git-cheat-sheet-education.pdf
+                    https://git-scm.com/docs/git
+                    https://about.gitlab.com/images/press/git-cheat-sheet.pdf
+'''
 import os
 import tkinter as tk
 from tkinter import filedialog
@@ -31,7 +33,7 @@ class App(tk.Frame):
         self.setupmenu.add_command(label="Clone Project", command=self.clone_repo)
         self.setupmenu.add_separator()
         self.setupmenu.add_command(label="Update Name", command=self.update_name)
-        self.setupmenu.add_command(label="Update Email")
+        self.setupmenu.add_command(label="Update Email", command=self.update_email)
         self.setupmenu.add_separator()
         self.setupmenu.add_command(label="Exit", command=self.root.quit)
         self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
@@ -70,13 +72,12 @@ class App(tk.Frame):
 
     def frame(self):
         # Labels
-        self.project_label = tk.Label(root, text="No Project Currently Loaded", font=App.title,
-                anchor='center', wraplength=300)
-        self.project_path = tk.Label(root, text=self.project_path_string, font=App.information,
-        wraplength=300)
+        self.project_label = tk.Label(self.root, text="No Project Currently Loaded", font=App.title,
+                anchor='center')
+        self.project_path = tk.Label(self.root, text=self.project_path_string, font=App.information)
         # Placement
-        self.project_label.place(x=100, y=15, width=450, height=50)
-        self.project_path.place(x=50, y=75, width=450, height=50)
+        self.project_label.place(x=25, y=15, width=450, height=25)
+        self.project_path.place(x=25, y=50, width=450, height=50)
 
     def init_repo(self):
         # Open dialog box to select working folder
@@ -158,7 +159,7 @@ class App(tk.Frame):
         os.system(name_update)
         # Explination
         print()
-        print('The above line changes how git sees you. The name assoicated with this '+
+        print('The line below changes the name attached to your commits. The name assoicated with this '+
         'command is how you are represented when you push your commits to a repo.', end='\n'*2)
         print(f'The following command was ran: {name_update}')
         print(f'Your new username is {name}')
@@ -177,6 +178,34 @@ class App(tk.Frame):
         # Placement
         self.name_entry.place(x=0, y=0, width=300, height=25)
         self.update_name_btn.place(x=75, y=30, width=150, height=30)
+
+    def set_email(self, email):
+        # Clear terminal
+        os.system('cls || clear')
+        # Update email
+        email_update = f'git config --global user.email "{email}"'
+        os.system(email_update)
+        # Explination
+        print()
+        print('The line below changes the email attached to your commits. The email assoicated with this '+
+        'command is how you are represented when you push your commits to a repo.', end='\n'*2)
+        print(f'The following command was ran: {email_update}')
+        print(f'Your new email is {email}')
+        # Close dialog box
+        for widget in self.update_email_frame.winfo_children():
+            widget.destroy()
+        self.update_email_frame.destroy()
+
+    def update_email(self):
+        self.update_email_frame = tk.Tk()
+        self.update_email_frame.geometry('300x75')
+        self.update_email_frame.title('Update Email')
+        self.email_entry = tk.Entry(self.update_email_frame)
+        self.update_email_btn = tk.Button(self.update_email_frame, text='Set Email', font=App.buttons,
+            command=lambda: self.set_email(self.email_entry.get()))
+        # Placement
+        self.email_entry.place(x=0, y=0, width=300, height=25)
+        self.update_email_btn.place(x=75, y=30, width=150, height=30)
 
 if __name__ == '__main__':
     root = tk.Tk()
