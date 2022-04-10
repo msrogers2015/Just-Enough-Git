@@ -3,9 +3,18 @@
                     https://git-scm.com/docs/git
                     https://about.gitlab.com/images/press/git-cheat-sheet.pdf
 '''
-import os
+import os, subprocess, shutil
 import tkinter as tk
 from tkinter import filedialog
+import webbrowser
+
+def check_git():
+    if shutil.which('git') == None:
+        return False
+    return True
+
+def download_git():
+    webbrowser.open('https://git-scm.com/downloads')
 
 class App(tk.Frame):
     # Fonts
@@ -208,8 +217,18 @@ class App(tk.Frame):
         self.update_email_btn.place(x=75, y=30, width=150, height=30)
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    root.geometry('500x300')
-    root.title('GitPy')
-    app = App(root=root)
-    app.mainloop()
+    if check_git() == True:
+        root = tk.Tk()
+        root.geometry('500x300')
+        root.title('GitPy')
+        app = App(root=root)
+        app.mainloop()
+    else:
+        root = tk.Tk()
+        root.title('Git Not Found')
+        root.geometry('300x100')
+        error_label = tk.Label(root, text='Please install git', font=('Arial', 18))
+        get_git_btn = tk.Button(root, text='Get Git', command=download_git, font=('Arial', 14))
+        error_label.pack()
+        get_git_btn.pack()
+        root.mainloop()
