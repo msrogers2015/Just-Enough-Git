@@ -52,7 +52,7 @@ class App(tk.Frame):
         self.stagemenu = tk.Menu(self.menubar, tearoff=0)
         self.stagemenu.add_command(label="Status", command=self.status)
         self.stagemenu.add_separator()
-        self.stagemenu.add_command(label="Stage File(s)")
+        self.stagemenu.add_command(label="Stage File(s)", command=self.add_files)
         self.stagemenu.add_command(label="Unstage File(s)")
         self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Show Unstaged Changes")
@@ -229,6 +229,10 @@ class App(tk.Frame):
         self.current_status = subprocess.getoutput('git status')
         self.project_information.config(text=self.current_status)
         print(self.current_status)
+
+    def add_files(self):
+        file = filedialog.askopenfilenames()
+        print(self.root.splitlist(file))
 
 if __name__ == '__main__':
     if check_git() == True:
