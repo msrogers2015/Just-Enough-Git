@@ -53,7 +53,7 @@ class App(tk.Frame):
         self.stagemenu.add_command(label="Status", command=self.status)
         self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Stage File(s)", command=self.add_files)
-        self.stagemenu.add_command(label="Unstage File(s)")
+        self.stagemenu.add_command(label="Unstage File(s)", command=self.remove_files)
         self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Show Unstaged Changes")
         self.stagemenu.add_command(label="Show Staged Changes")
@@ -232,7 +232,24 @@ class App(tk.Frame):
 
     def add_files(self):
         file = filedialog.askopenfilenames()
-        print(self.root.splitlist(file))
+        files = self.root.splitlist(file)
+        os.system('cls || clear')
+        #self.status()
+        for file_to_add in files:
+            file_name = file_to_add.split('/')
+            print(file_name[-1])
+            os.system(f'git add {file_name[-1]}')
+        self.status()
+
+    def remove_files(self):
+        files = filedialog.askopenfilenames()
+        file_list = self.root.splitlist(files)
+        os.system('cls || clear')
+        for file in file_list:
+            file_name = file.split('/')
+            print(file_name[-1])
+            os.system(f'git reset {file_name[-1]}')
+        self.status()
 
 if __name__ == '__main__':
     if check_git() == True:
