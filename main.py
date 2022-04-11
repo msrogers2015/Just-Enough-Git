@@ -1,22 +1,11 @@
 #!/usr/bin/env python3
-''' Source commands https://education.github.com/git-cheat-sheet-education.pdf
-                    https://git-scm.com/docs/git
-                    https://about.gitlab.com/images/press/git-cheat-sheet.pdf
-'''
+
 import os, subprocess, shutil
-from textwrap import wrap
 import tkinter as tk
 from tkinter import filedialog
 import webbrowser
-import time
+from commands import gui, setup
 
-def check_git():
-    if shutil.which('git') == None:
-        return False
-    return True
-
-def download_git():
-    webbrowser.open('https://git-scm.com/downloads')
 
 class App(tk.Frame):
     # Fonts
@@ -31,56 +20,13 @@ class App(tk.Frame):
         # Creating empty working path variable for alter useage
         self.project_path_string = ''
         # Rendering app menu and main window.
-        self.menu()
-        root.config(menu=self.menubar)
-        self.frame()
+        self.gui = gui.GUI(self.root)   
+        self.setup_commands = setup.Setup(self.root)
+        self.key_bindings()
 
-    def menu(self):
-        # Creation of window menu options
-        self.menubar = tk.Menu(self.root)
-        self.setupmenu = tk.Menu(self.menubar, tearoff=0)
-        # Setup Menu Options
-        self.setupmenu.add_command(label="Init Project", command=self.init_repo)
-        self.setupmenu.add_command(label="Clone Project", command=self.clone_repo)
-        self.setupmenu.add_separator()
-        self.setupmenu.add_command(label="Update Name", command=self.update_name)
-        self.setupmenu.add_command(label="Update Email", command=self.update_email)
-        self.setupmenu.add_separator()
-        self.setupmenu.add_command(label="Exit", command=self.root.quit)
-        self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
-        # Stage Menu Options
-        self.stagemenu = tk.Menu(self.menubar, tearoff=0)
-        self.stagemenu.add_command(label="Status", command=self.status)
-        self.stagemenu.add_separator()
-        self.stagemenu.add_command(label="Stage File(s)", command=self.add_files)
-        self.stagemenu.add_command(label="Unstage File(s)", command=self.remove_files)
-        self.stagemenu.add_separator()
-        self.stagemenu.add_command(label="Show Unstaged Changes")
-        self.stagemenu.add_command(label="Show Staged Changes")
-        self.stagemenu.add_separator()
-        self.stagemenu.add_command(label="Commit")
-        self.menubar.add_cascade(label="Staging", menu=self.stagemenu)
-        # Help Menu Options
-        self.branchmenu = tk.Menu(self.menubar, tearoff=0)
-        self.branchmenu.add_command(label="List Branches")
-        self.branchmenu.add_command(label="New Branch")
-        self.branchmenu.add_separator()
-        self.branchmenu.add_command(label="Switch Branch")
-        self.branchmenu.add_command(label="Merge Branch")
-        self.branchmenu.add_separator()
-        self.branchmenu.add_command(label="Commit History")
-        self.branchmenu.add_command(label="Compare Commits")
-        self.branchmenu.add_command(label="Compare Changes")
-        self.menubar.add_cascade(label="Branch", menu=self.branchmenu)
-
-        self.updatemenu = tk.Menu(self.menubar, tearoff=0)
-        self.updatemenu.add_command(label="Fetch")
-        self.updatemenu.add_command(label="Pull")
-        self.updatemenu.add_separator()
-        self.updatemenu.add_command(label="Merge")
-        self.updatemenu.add_command(label="Push")
-        self.menubar.add_cascade(label='Update', menu=self.updatemenu)
-
+    def key_bindings(self):
+        self.root.bind('<Control-o>', self.setup_commands.init_repo)
+'''
     def frame(self):
         # Labels
         self.project_label = tk.Label(self.root, text="No Project Currently Loaded", font=App.title,
@@ -96,7 +42,7 @@ class App(tk.Frame):
         self.project_information.place(x=15, y=110, width=275, height=375)
         self.project_commit_message.place(x=310, y=100, width=275, height=375)
 
-    def init_repo(self):
+    def init_repo(self, event=None):
         # Open dialog box to select working folder
         self.init_directory = filedialog.askdirectory()
         if not self.init_directory:
@@ -149,7 +95,7 @@ class App(tk.Frame):
             widget.destroy()
         self.clone_window.destroy()
 
-    def clone_repo(self):
+    def clone_repo(self, event=None):
         # Create dialog for user to select file destination
         self.clone_directory = filedialog.askdirectory()
         # Saving path for later use
@@ -250,20 +196,22 @@ class App(tk.Frame):
             print(file_name[-1])
             os.system(f'git reset {file_name[-1]}')
         self.status()
+        '''
 
 if __name__ == '__main__':
-    if check_git() == True:
+    if shutil.which('git') == None:
+        root = tk.Tk()
+        root.title('Git Not Found')
+        root.geometry('300x100')
+        error_label = tk.Label(root, text='Please install git', font=('Arial', 18))
+        get_git_btn = tk.Button(root, text='Get Git', command=lambda: webbrowser.open('https://git-scm.com/downloads'), font=('Arial', 14))
+        error_label.pack()
+        get_git_btn.pack()
+        root.mainloop()
+    else:
         root = tk.Tk()
         root.geometry('600x500')
         root.title('GitPy')
         app = App(root=root)
         app.mainloop()
-    else:
-        root = tk.Tk()
-        root.title('Git Not Found')
-        root.geometry('300x100')
-        error_label = tk.Label(root, text='Please install git', font=('Arial', 18))
-        get_git_btn = tk.Button(root, text='Get Git', command=download_git, font=('Arial', 14))
-        error_label.pack()
-        get_git_btn.pack()
-        root.mainloop()
+       
