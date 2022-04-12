@@ -5,27 +5,21 @@ import tkinter as tk
 from tkinter import filedialog
 import webbrowser
 from commands import gui, setup
+from data import tkinter_values as tv
 
 
 class App(tk.Frame):
-    # Fonts
-    title = ('Arial', 16)
-    buttons = ('Arial', 14)
-    information = ('Arial', 12)
 
     def __init__(self, root=None):
         # Setting up GUI window for rendering
         super().__init__(root)
         self.root = root
-        # Creating empty working path variable for alter useage
-        self.project_path_string = ''
         # Rendering app menu and main window.
         self.gui = gui.GUI(self.root)   
-        self.setup_commands = setup.Setup(self.root)
         self.key_bindings()
 
     def key_bindings(self):
-        self.root.bind('<Control-o>', self.setup_commands.init_repo)
+        self.root.bind('<Control-o>', self.gui.setup_commands.init_repo)
 '''
     def frame(self):
         # Labels
@@ -210,7 +204,7 @@ if __name__ == '__main__':
         root.mainloop()
     else:
         root = tk.Tk()
-        root.geometry('600x500')
+        root.geometry(f'{tv.width}x{tv.height}')
         root.title('GitPy')
         app = App(root=root)
         app.mainloop()
