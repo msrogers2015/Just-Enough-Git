@@ -4,12 +4,13 @@ import os, sys, subprocess
 from data import tkinter_values as tv
 
 class Setup(tk.Frame):
-    def __init__(self, root=None, project_label=None, project_path_label=None, status_label=None):
+    def __init__(self, root=None, project_label=None, project_path_label=None, status_information=None, terminal_command=None):
         super().__init__(root)
         self.root = root
         self.project_label = project_label
         self.project_path_label = project_path_label
-        self.status_label = status_label
+        self.status_information = status_information
+        self.terminal_command = terminal_command
 
     def init_repo(self, event=None):
         # Open dialog box to select working folder
@@ -33,7 +34,8 @@ class Setup(tk.Frame):
             path_split = tv.project_path_string.split('/')
             self.project_label.config(text=f'Working on {path_split[-1].title()}')
             self.project_path_label.config(text=tv.project_path_string)
-            self.status_label.config(text=tv.init_prompt)
+            self.status_information.config(text=tv.init_prompt)
+            self.terminal_command.config(text='git init')
 
     def download_repo(self, repo, path):
         # Preping local machine for repo download
@@ -44,22 +46,18 @@ class Setup(tk.Frame):
         if url_list[0] == 'github.com' and url_list[2][-4:] == '.git':    
             clone_string = 'git clone ' + repo 
             os.system(clone_string)
-        print()
-        print('This will retrive a github repo and install it locally on your '+
-        'machine at the specified path. The above code is what git displays while retriving '+
-        'the repo. If the repo fails, there will be an error message. The follow line of '+
-        'code was ran.', end='\n'*2)
-        print(f'git clone {repo}', end='\n'*2)
+        self.terminal_command.config(text=f'git clone {repo}')
         # Entering project
         project = url_list[2].split('.')
         os.chdir(project[0])
         print('Current Directory')
         os.system('cd')
-        self.project_path_string = os.getcwd()
+        tv.project_path_string = os.getcwd()
         # Updating frame
-        path_split = self.project_path_string.split('/')
+        path_split = tv.project_path_string.split('/')
         self.project_label.config(text=f'Working on {path_split[-1].title()}')
-        self.project_path.config(text=self.project_path_string)
+        self.project_path_label.config(text=tv.project_path_string)
+        self.status_information.config(text=tv.clone_prompt)
         # Closing repo cloning dialog box
         for widget in self.clone_window.winfo_children():
             widget.destroy()
@@ -69,7 +67,7 @@ class Setup(tk.Frame):
         # Create dialog for user to select file destination
         self.clone_directory = filedialog.askdirectory()
         # Saving path for later use
-        self.project_path_string = self.clone_directory
+        tv.project_path_string = self.clone_directory
         # Checking if folder was selected
         if not self.clone_directory:
             pass
@@ -80,6 +78,59 @@ class Setup(tk.Frame):
             self.clone_window.title('Clone Repo')
             self.url_entry = tk.Entry(self.clone_window)
             self.clone_btn = tk.Button(self.clone_window, text='Clone',
-                    command=lambda: self.download_repo(self.url_entry.get(), self.project_path_string))
+                    command=lambda: self.download_repo(self.url_entry.get(), tv.project_path_string))
             self.url_entry.place(x=0, y=0, width=300, height=25)
             self.clone_btn.place(x=75, y=35, width=150, height=30)
+
+    def set_username(self, name):
+        tv.name = name
+        # Clear terminal
+        os.system('cls || clear')
+        # Update username
+        name_update = f'git config --global user.name "{tv.name}"'
+        os.system(name_update)
+        print(f'Your new username is {name}')
+        self.status_information.config(text=tv.name_prompt)
+        self.terminal_command.config(text=name_update)
+        # Close dialog box
+        for widget in self.update_name_frame.winfo_children():
+            widget.destroy()
+        self.update_name_frame.destroy()
+
+    def update_name(self):
+        self.update_name_frame = tk.Tk()
+        self.update_name_frame.geometry('300x75')
+        self.update_name_frame.title('Update Name')
+        self.name_entry = tk.Entry(self.update_name_frame)
+        self.update_name_btn = tk.Button(self.update_name_frame, text='Set Name', font=tv.buttons,
+            command=lambda: self.set_username(self.name_entry.get()))
+        # Placement
+        self.name_entry.place(x=0, y=0, width=300, height=25)
+        self.update_name_btn.place(x=75, y=30, width=150, height=30)
+
+    def set_email(self, email):
+        tv.email = email
+        # Clear terminal
+        os.system('cls || clear')
+        # Update email
+        email_update = f'git config --global user.email "{email}"'
+        os.system(email_update)
+        # Explination
+        print(f'Your new email is {email}')
+        self.status_information.config(text=tv.email_prompt)
+        self.terminal_command.config(text=email_update)
+        # Close dialog box
+        for widget in self.update_email_frame.winfo_children():
+            widget.destroy()
+        self.update_email_frame.destroy()
+
+    def update_email(self):
+        self.update_email_frame = tk.Tk()
+        self.update_email_frame.geometry('300x75')
+        self.update_email_frame.title('Update Email')
+        self.email_entry = tk.Entry(self.update_email_frame)
+        self.update_email_btn = tk.Button(self.update_email_frame, text='Set Email', font=tv.buttons,
+            command=lambda: self.set_email(self.email_entry.get()))
+        # Placement
+        self.email_entry.place(x=0, y=0, width=300, height=25)
+        self.update_email_btn.place(x=75, y=30, width=150, height=30)
