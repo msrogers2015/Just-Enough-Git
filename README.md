@@ -136,7 +136,7 @@ The Staging menu allows you to add and remove files form the stage as well as ge
 - [x] Update User Info (Name and Email)
 - [x] Get Status
 - [x] Stage/Unstage files
-    - [ ] Show unstaged file history
+    - [x] Show unstaged file history
 - [ ] Full Commit
     - [ ] Quick Commit
 - [ ] List Branches
