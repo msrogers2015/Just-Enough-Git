@@ -17,10 +17,12 @@ class App(tk.Frame):
         # Rendering app menu and main window.
         self.gui = gui.GUI(self.root)   
         self.key_bindings()
+        tv.home_path = os.getcwd()
 
     def key_bindings(self):
         self.root.bind('<Control-o>', self.gui.setup_commands.init_repo)
         self.root.bind('<Control-O>', self.gui.setup_commands.clone_repo)
+        self.root.bind('<Control-c>', self.gui.stage_commands.output_files)
 
 if __name__ == '__main__':
     if shutil.which('git') == None:

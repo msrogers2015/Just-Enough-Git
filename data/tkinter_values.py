@@ -5,6 +5,8 @@ information = ('Arial', 12)
 
 # Paths
 project_path_string = ''
+home_path = ''
+project_title = ''
 
 # App dimensions
 width = 600

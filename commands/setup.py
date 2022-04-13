@@ -19,7 +19,7 @@ class Setup(tk.Frame):
             pass
         else:
             print(self.init_directory) # Value check
-            tv.project_path_string = self.init_directory.replace('/','\\')
+            tv.project_path_string = self.init_directory.replace('/',"\\")
             # Change directory into working folder
             os.chdir(tv.project_path_string)
             # Initilize project and display update in terminal
@@ -31,7 +31,9 @@ class Setup(tk.Frame):
             os.system('cd || pwd')
             print(tv.project_path_string)
             # Updating frame information
-            path_split = tv.project_path_string.split('/')
+            path_split = tv.project_path_string.split('\\')
+            print(path_split)
+            tv.project_title = path_split[-1]
             self.project_label.config(text=f'Working on {path_split[-1].title()}')
             self.project_path_label.config(text=tv.project_path_string)
             self.status_information.config(text=tv.init_prompt)
@@ -54,7 +56,8 @@ class Setup(tk.Frame):
         os.system('cd')
         tv.project_path_string = os.getcwd()
         # Updating frame
-        path_split = tv.project_path_string.split('/')
+        path_split = tv.project_path_string.split('\\')
+        tv.project_title = path_split[-1]
         self.project_label.config(text=f'Working on {path_split[-1].title()}')
         self.project_path_label.config(text=tv.project_path_string)
         self.status_information.config(text=tv.clone_prompt)

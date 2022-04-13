@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 import os, sys, subprocess
 from data import tkinter_values as tv
+import datetime as dt
+import time
 
 class Stage(tk.Frame):
     def __init__(self, root=None, project_label=None, project_path_label=None, status_information=None, terminal_command=None):
@@ -42,3 +44,37 @@ class Stage(tk.Frame):
         self.status()
         self.status_information.config(text=tv.add_file_prompt)
         self.terminal_command.config(text='git remove {filename}')
+    
+    def staged_files(self, event=None):
+        os.system('cls || clear')
+        staged_difference = subprocess.getoutput('git diff')
+        date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
+        os.chdir(tv.home_path)
+        os.chdir('outputs')
+        with open(f'{tv.project_title}_staged_{date_stamp}', 'w') as file:
+            file.write(staged_difference)
+        os.system(f'notepad {tv.project_title}_staged_{date_stamp}')
+        os.chdir(tv.project_path_string)
+        print('Check the output files for more information')
+    
+    def unstaged_files(self, event=None):
+        os.system('cls || clear')
+        staged_difference = subprocess.getoutput('git diff')
+        date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
+        os.chdir(tv.home_path)
+        os.chdir('outputs')
+        with open(f'{tv.project_title}_unstaged_{date_stamp}', 'w') as file:
+            file.write(staged_difference)
+        os.system(f'notepad {tv.project_title}_unstaged_{date_stamp}')
+        os.chdir(tv.project_path_string)
+        print('Check the output files for more information')
+    
+    def output_files(self, event=None):
+        os.system('cls || clear')
+        os.chdir(tv.home_path)
+        os.chdir('outputs')
+        print(os.getcwd())
+        os.system('start ..\outputs')
+        if tv.project_path_string != '':
+            os.chdir(tv.project_path_string)
+        os.chdir(tv.home_path)
