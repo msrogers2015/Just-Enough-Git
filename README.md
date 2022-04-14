@@ -114,6 +114,7 @@ Only thing you need is python and git installed. I will warn you to check your t
    ```sh
    python main.py
    ```
+   Alternatively double click the run.bat file (do not move this file as it is path dependent)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -137,8 +138,8 @@ The Staging menu allows you to add and remove files form the stage as well as ge
 - [x] Get Status
 - [x] Stage/Unstage files
     - [x] Show unstaged file history
-- [ ] Full Commit
-    - [ ] Quick Commit
+- [x] Full Commit
+    - [x] Quick Commit
 - [ ] List Branches
 - [ ] Create Branch
 - [ ] Switch Branches

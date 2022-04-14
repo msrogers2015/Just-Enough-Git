@@ -23,6 +23,8 @@ class App(tk.Frame):
         self.root.bind('<Control-o>', self.gui.setup_commands.init_repo)
         self.root.bind('<Control-O>', self.gui.setup_commands.clone_repo)
         self.root.bind('<Control-c>', self.gui.stage_commands.output_files)
+        self.root.bind('<Control-s>', self.gui.stage_commands.commit)
+        self.root.bind('<Control-S>', self.gui.stage_commands.quick_commit)
 
 if __name__ == '__main__':
     if shutil.which('git') == None:

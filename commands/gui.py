@@ -26,6 +26,7 @@ class GUI(tk.Frame):
         self.menubar = tk.Menu(self.root)
         self.setupmenu = tk.Menu(self.menubar, tearoff=0)
         self.stagemenu = tk.Menu(self.menubar, tearoff=0)
+        self.commitmenu = tk.Menu(self.menubar, tearoff=0)
         # Setup Menu Options
         self.setupmenu.add_command(label="Init Project   (Ctrl+O)", command=self.setup_commands.init_repo)
         self.setupmenu.add_command(label="Clone Project   (Ctrl+Shift+O)", command=self.setup_commands.clone_repo)
@@ -42,11 +43,15 @@ class GUI(tk.Frame):
         self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Unstaged Changes", command=self.stage_commands.unstaged_files)
         self.stagemenu.add_command(label="Staged Changes", command=self.stage_commands.staged_files)
-        self.stagemenu.add_separator()
         self.stagemenu.add_command(label="Open Changes Output   (Ctrl+c)", command=self.stage_commands.output_files)
+        # Commit Menu
+        self.commitmenu.add_command(label="Full Commit", command=self.stage_commands.commit)
+        self.commitmenu.add_command(label="Quick Commit", command=self.stage_commands.quick_commit)
+        self.commitmenu.add_separator()
         # Adding Sub menus to main menu bar
         self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
         self.menubar.add_cascade(label='Stage', menu=self.stagemenu)
+        self.menubar.add_cascade(label='Commit', menu=self.commitmenu)
     
     def window(self):
         # Labels

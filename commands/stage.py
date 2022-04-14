@@ -78,3 +78,26 @@ class Stage(tk.Frame):
         if tv.project_path_string != '':
             os.chdir(tv.project_path_string)
         os.chdir(tv.home_path)
+    
+    def commit(self, event=None):
+        os.system('git commit')
+        self.status_information.config(text=tv.commit_prompt)
+
+    def send_commit(self,message, event=None):
+        os.system('cls || clear')
+        commit_message = subprocess.getoutput(f'git commit -m "{message}"')
+        print(commit_message)
+        for widget in self.commit_window.winfo_children():
+            widget.destroy()
+        self.commit_window.destroy()
+
+
+    def quick_commit(self, event=None):
+        self.commit_window = tk.Tk()
+        self.commit_window.geometry('300x75')
+        self.commit_window.title('Quick Commit Message')
+        self.commit_entry = tk.Entry(self.commit_window)
+        self.commit_btn = tk.Button(self.commit_window, text='Quick Commit',
+                    command=lambda: self.send_commit(message=self.commit_entry.get()))
+        self.commit_entry.place(x=0, y=0, width=300, height=25)
+        self.commit_btn.place(x=75, y=35, width=150, height=30)

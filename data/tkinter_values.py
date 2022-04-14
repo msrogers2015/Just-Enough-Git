@@ -20,6 +20,7 @@ email_prompt = 'The line below changes the email attached to your commits. The e
 status_prompt = 'Look at the terminal for your output. This command give you a snapshot of your project, which files are ready for the commit and which ones still need to be added or worked on.'
 add_file_prompt = 'Files will be added to the staging area. These files are ready to be commited and pushed to the repo'
 remove_file_prompt = 'Files will be removed from the staging are and will not be part of the commit and push to repo'
+commit_prompt = 'Switch to the terminal to type your commit message. When you are finished, prees Ctrl+ o to save, enter to confirm and Ctrl+x to exit and save the commit'
 
 # Global Variables
 name = ''
