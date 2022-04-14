@@ -25,6 +25,8 @@ class App(tk.Frame):
         self.root.bind('<Control-c>', self.gui.stage_commands.output_files)
         self.root.bind('<Control-s>', self.gui.stage_commands.commit)
         self.root.bind('<Control-S>', self.gui.stage_commands.quick_commit)
+        self.root.bind('<Control-p>', self.gui.stage_commands.push)
+        self.root.bind('<Control-P>', self.gui.stage_commands.pull)
 
 if __name__ == '__main__':
     if shutil.which('git') == None:

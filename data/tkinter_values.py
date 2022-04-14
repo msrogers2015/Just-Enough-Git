@@ -21,6 +21,8 @@ status_prompt = 'Look at the terminal for your output. This command give you a s
 add_file_prompt = 'Files will be added to the staging area. These files are ready to be commited and pushed to the repo'
 remove_file_prompt = 'Files will be removed from the staging are and will not be part of the commit and push to repo'
 commit_prompt = 'Switch to the terminal to type your commit message. When you are finished, prees Ctrl+ o to save, enter to confirm and Ctrl+x to exit and save the commit'
+push_prompt = 'Pushing your local repo means that all the changes you saved and commited will be put in the remote repo over on github. Go check out what changed!'
+pull_prompt = ''
 
 # Global Variables
 name = ''

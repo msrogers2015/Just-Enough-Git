@@ -101,3 +101,11 @@ class Stage(tk.Frame):
                     command=lambda: self.send_commit(message=self.commit_entry.get()))
         self.commit_entry.place(x=0, y=0, width=300, height=25)
         self.commit_btn.place(x=75, y=35, width=150, height=30)
+    
+    def push(self, event=None):
+        os.system('git push')
+        self.status_information.config(text=tv.push_prompt)
+    
+    def pull(self, event=None):
+        os.system('git pull')
+        self.status_information.config(text=tv.pull_prompt)

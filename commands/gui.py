@@ -27,6 +27,8 @@ class GUI(tk.Frame):
         self.setupmenu = tk.Menu(self.menubar, tearoff=0)
         self.stagemenu = tk.Menu(self.menubar, tearoff=0)
         self.commitmenu = tk.Menu(self.menubar, tearoff=0)
+        self.branchmenu = tk.Menu(self.menubar, tearoff=0)
+        self.trackmenu = tk.Menu(self.menubar, tearoff=0)
         # Setup Menu Options
         self.setupmenu.add_command(label="Init Project   (Ctrl+O)", command=self.setup_commands.init_repo)
         self.setupmenu.add_command(label="Clone Project   (Ctrl+Shift+O)", command=self.setup_commands.clone_repo)
@@ -48,10 +50,30 @@ class GUI(tk.Frame):
         self.commitmenu.add_command(label="Full Commit", command=self.stage_commands.commit)
         self.commitmenu.add_command(label="Quick Commit", command=self.stage_commands.quick_commit)
         self.commitmenu.add_separator()
+        self.commitmenu.add_command(label='Push   (Ctrl+P)', command=self.stage_commands.push)
+        self.commitmenu.add_command(label='Pull   (Ctrl+Shift+P)', command=self.stage_commands.pull)
+        # Branch Menu
+        self.branchmenu.add_command(label='List Branches')
+        self.branchmenu.add_command(label='Switch Branch')
+        self.branchmenu.add_command(label='New Branch')
+        self.branchmenu.add_separator()
+        self.branchmenu.add_command(label='Merge Branches')
+        self.branchmenu.add_separator()
+        self.branchmenu.add_command(label='Changes on Current Branch')
+        self.branchmenu.add_command(label='Compare Branch Log')
+        self.branchmenu.add_command(label='Compare Branch Changes')
+        # Tracking Menu
+        self.trackmenu.add_command(label='Track File')
+        self.trackmenu.add_command(label='Remove File(s)')
+        self.trackmenu.add_command(label='Move File(s)')
+        self.trackmenu.add_separator()
+        self.trackmenu.add_command(label='Show Tracking Log')
         # Adding Sub menus to main menu bar
         self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
         self.menubar.add_cascade(label='Stage', menu=self.stagemenu)
         self.menubar.add_cascade(label='Commit', menu=self.commitmenu)
+        self.menubar.add_cascade(label='Branch', menu=self.branchmenu)
+        self.menubar.add_cascade(label='Tracking', menu=self.trackmenu)
     
     def window(self):
         # Labels

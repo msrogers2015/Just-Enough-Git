@@ -148,9 +148,9 @@ The Staging menu allows you to add and remove files form the stage as well as ge
     - [ ] Compare Commits
     - [ ] Compare Changes
 - [ ] Fetch command
-- [ ] Pull command
+- [x] Pull command
 - [ ] Merge command
-- [ ] Push command
+- [x] Push command
 
 See the [open issues](https://github.com/msrogers2015/Just-Enough-Git/issues) for a full list of proposed features (and known issues).
 
