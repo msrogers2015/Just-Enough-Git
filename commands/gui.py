@@ -1,5 +1,5 @@
 import tkinter as tk
-from commands import setup, stage
+from commands import setup, stage, branch
 import os
 from data import tkinter_values as tv
 
@@ -14,6 +14,11 @@ class GUI(tk.Frame):
             status_information=self.status_information,
             terminal_command = self.terminal_command)
         self.stage_commands = stage.Stage(root=self.root,
+            project_label=self.project_label,
+            project_path_label=self.project_path_label,
+            status_information=self.status_information,
+            terminal_command = self.terminal_command)
+        self.branch_commands = branch.Branch(root=self.root,
             project_label=self.project_label,
             project_path_label=self.project_path_label,
             status_information=self.status_information,
@@ -53,9 +58,9 @@ class GUI(tk.Frame):
         self.commitmenu.add_command(label='Push   (Ctrl+P)', command=self.stage_commands.push)
         self.commitmenu.add_command(label='Pull   (Ctrl+Shift+P)', command=self.stage_commands.pull)
         # Branch Menu
-        self.branchmenu.add_command(label='List Branches')
-        self.branchmenu.add_command(label='Switch Branch')
-        self.branchmenu.add_command(label='New Branch')
+        self.branchmenu.add_command(label='List Branches', command=self.branch_commands.branches)
+        self.branchmenu.add_command(label='Switch Branch', command=self.branch_commands.switch_branch)
+        self.branchmenu.add_command(label='New Branch',command=self.branch_commands.new_branch)
         self.branchmenu.add_separator()
         self.branchmenu.add_command(label='Merge Branches')
         self.branchmenu.add_separator()

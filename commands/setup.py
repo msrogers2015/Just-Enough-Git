@@ -61,6 +61,7 @@ class Setup(tk.Frame):
         self.project_label.config(text=f'Working on {path_split[-1].title()}')
         self.project_path_label.config(text=tv.project_path_string)
         self.status_information.config(text=tv.clone_prompt)
+        self.terminal_command.config(text=f'git clone {repo}')
         # Closing repo cloning dialog box
         for widget in self.clone_window.winfo_children():
             widget.destroy()

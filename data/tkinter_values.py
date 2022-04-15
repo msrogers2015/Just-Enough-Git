@@ -23,6 +23,9 @@ remove_file_prompt = 'Files will be removed from the staging are and will not be
 commit_prompt = 'Switch to the terminal to type your commit message. When you are finished, prees Ctrl+ o to save, enter to confirm and Ctrl+x to exit and save the commit'
 push_prompt = 'Pushing your local repo means that all the changes you saved and commited will be put in the remote repo over on github. Go check out what changed!'
 pull_prompt = ''
+branch_prompt = 'Check the terminal for a list of all branches for this project. The branch with a * by it is the current loaded branch.'
+create_branch_prompt = 'Creating a new branch makes a fork from the current project that you can work on freely. Test new features and work on bug fixes would benefits from creating a new branch'
+
 
 # Global Variables
 name = ''

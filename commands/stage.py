@@ -56,6 +56,7 @@ class Stage(tk.Frame):
         os.system(f'notepad {tv.project_title}_staged_{date_stamp}')
         os.chdir(tv.project_path_string)
         print('Check the output files for more information')
+        self.terminal_command.config(text='git diff')
     
     def unstaged_files(self, event=None):
         os.system('cls || clear')
