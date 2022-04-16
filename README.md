@@ -144,13 +144,16 @@ The Staging menu allows you to add and remove files form the stage as well as ge
 - [x] Create Branch
 - [x] Switch Branches
 - [x] Merge Branches
-- [ ] Commit History
-    - [ ] Compare Commits
-    - [ ] Compare Changes
+- [X] Commit History
+    - [X] Compare Commits
+    - [X] Compare Changes
 - [ ] Fetch command
 - [x] Pull command
 - [ ] Merge command
 - [x] Push command
+- [ ] Track Files
+  - [ ] Show tracking log
+  - [ ] Ad and remove files from project
 
 See the [open issues](https://github.com/msrogers2015/Just-Enough-Git/issues) for a full list of proposed features (and known issues).
 

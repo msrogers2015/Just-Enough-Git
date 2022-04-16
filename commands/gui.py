@@ -64,8 +64,8 @@ class GUI(tk.Frame):
         self.branchmenu.add_separator()
         self.branchmenu.add_command(label='Merge Branches   (Ctrl+M)', command=self.branch_commands.merge_branch)
         self.branchmenu.add_separator()
-        self.branchmenu.add_command(label='Changes on Current Branch')
-        self.branchmenu.add_command(label='Compare Branch Log')
+        self.branchmenu.add_command(label='Changes on Current Branch', command=self.branch_commands.branch_commits)
+        self.branchmenu.add_command(label='Compare Branch Log', command=self.branch_commands.branch_compare)
         self.branchmenu.add_command(label='Compare Branch Changes')
         # Tracking Menu
         self.trackmenu.add_command(label='Track File')

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import os, sys, subprocess
 from data import tkinter_values as tv
+import datetime as dt
 
 class Branch(tk.Frame):
     def __init__(self, root=None, project_label=None, project_path_label=None, status_information=None, terminal_command=None):
@@ -66,6 +67,7 @@ class Branch(tk.Frame):
         for widget in self.branch_window.winfo_children():
             widget.destroy()
         self.branch_window.destroy()
+        os.system('git commit')
     
     def merge_branch(self, event=None):
         self.branch_list = subprocess.getoutput('git branch').split('\n')
@@ -78,7 +80,56 @@ class Branch(tk.Frame):
         self.selection.set(current[0])
         self.branch_dropdown = tk.OptionMenu(self.branch_window, self.selection, *self.branch_list)
         self.branch_btn = tk.Button(self.branch_window, text='Merge Branch',
-                    command=lambda: self.checkout_branch(branch=self.selection.get()))
+                    command=lambda: self.merge_with_current(branch=self.selection.get()))
         self.branch_dropdown.place(x=75, y=0, width=150, height=40)
         self.branch_btn.place(x=75, y=50, width=150, height=30)
     
+    def branch_commits(self):
+        os.system('cls || clear')
+        self.branch_list = subprocess.getoutput('git branch').split('\n')
+        branch = [x for x in self.branch_list if x[0] == '*']
+        branch_commit_history = subprocess.getoutput('git log')
+        date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
+        os.chdir(tv.home_path)
+        os.chdir('outputs\\commit_history')
+        with open(f'{tv.project_title}_{branch[2:]}_{date_stamp}.txt', 'w') as file:
+            file.write(branch_commit_history)
+        os.system(f'notepad {tv.project_title}_{branch[2:]}_{date_stamp}')
+        os.chdir(tv.project_path_string)
+        print('Check the output files for more information')
+    
+    def compare_branches(self, branch1, branch2):
+        os.system('cls || clear')
+        branchA = branch1[2:].strip()
+        branchB = branch2.strip()
+        branch_log = subprocess.getoutput(f'git log {branchB} {branchA}')
+        date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
+        os.chdir(tv.home_path)
+        os.chdir('outputs\\compare_branch')
+        with open(f'{tv.project_title}_{branchA}-{branchB}_{date_stamp}.txt', 'w') as file:
+            file.write(branch_log)
+        os.system(f'notepad {tv.project_title}_{branchA}-{branchB}_{date_stamp}.txt')
+        os.chdir(tv.project_path_string)
+        print('Check the output files for more information')
+        for widget in self.branch_window.winfo_children():
+            widget.destroy()
+        self.branch_window.destroy()
+        
+
+    def branch_compare(self):
+        self.branch_list1 = subprocess.getoutput('git branch').split('\n')
+        self.branch_list2 = self.branch_list1
+        self.branch_window = tk.Tk()
+        self.branch_window.geometry('300x150')
+        self.branch_window.title('Compare Branch')
+        self.selection1 = tk.StringVar(self.branch_window)
+        self.selection2 = tk.StringVar(self.branch_window)
+        self.selection1.set(self.branch_list1[0])
+        self.selection2.set(self.branch_list2[0])
+        self.branch1_dropdown = tk.OptionMenu(self.branch_window, self.selection1, *self.branch_list1)
+        self.branch2_dropdown = tk.OptionMenu(self.branch_window, self.selection2, *self.branch_list2)
+        self.branch_btn = tk.Button(self.branch_window, text='Compare Branch',
+                    command=lambda: self.compare_branches(branch1=self.selection1.get(), branch2=self.selection2.get()))
+        self.branch1_dropdown.place(x=75, y=0, width=150, height=40)
+        self.branch2_dropdown.place(x=75, y=50, width=150, height=40)
+        self.branch_btn.place(x=75, y=100, width=150, height=30)

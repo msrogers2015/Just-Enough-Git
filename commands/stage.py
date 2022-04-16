@@ -50,8 +50,8 @@ class Stage(tk.Frame):
         staged_difference = subprocess.getoutput('git diff')
         date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
         os.chdir(tv.home_path)
-        os.chdir('outputs')
-        with open(f'{tv.project_title}_staged_{date_stamp}', 'w') as file:
+        os.chdir('outputs\\staged')
+        with open(f'{tv.project_title}_staged_{date_stamp}.txt', 'w') as file:
             file.write(staged_difference)
         os.system(f'notepad {tv.project_title}_staged_{date_stamp}')
         os.chdir(tv.project_path_string)
@@ -63,8 +63,8 @@ class Stage(tk.Frame):
         staged_difference = subprocess.getoutput('git diff')
         date_stamp = dt.datetime.now().strftime("%Y_%m_%d-%I%M%S_%p")
         os.chdir(tv.home_path)
-        os.chdir('outputs')
-        with open(f'{tv.project_title}_unstaged_{date_stamp}', 'w') as file:
+        os.chdir('outputs\\unstaged')
+        with open(f'{tv.project_title}_unstaged_{date_stamp}.txt', 'w') as file:
             file.write(staged_difference)
         os.system(f'notepad {tv.project_title}_unstaged_{date_stamp}')
         os.chdir(tv.project_path_string)
