@@ -57,3 +57,28 @@ class Branch(tk.Frame):
         self.branch_dropdown.place(x=75, y=0, width=150, height=40)
         self.branch_btn.place(x=75, y=50, width=150, height=30)
     
+    def merge_with_current(self, branch):
+        os.system('cls || clear')
+        if '*' not in branch:
+            os.system(f'git merge {branch}')
+        else:
+            print('Cannot merge current branch with itself.')
+        for widget in self.branch_window.winfo_children():
+            widget.destroy()
+        self.branch_window.destroy()
+    
+    def merge_branch(self, event=None):
+        self.branch_list = subprocess.getoutput('git branch').split('\n')
+        self.branch_window = tk.Tk()
+        self.branch_window.geometry('300x100')
+        self.branch_window.title('Merge Branch')
+        self.selection = tk.StringVar(self.branch_window)
+        current = [x for x in self.branch_list if x[0] == '*']
+        print(current[0])
+        self.selection.set(current[0])
+        self.branch_dropdown = tk.OptionMenu(self.branch_window, self.selection, *self.branch_list)
+        self.branch_btn = tk.Button(self.branch_window, text='Merge Branch',
+                    command=lambda: self.checkout_branch(branch=self.selection.get()))
+        self.branch_dropdown.place(x=75, y=0, width=150, height=40)
+        self.branch_btn.place(x=75, y=50, width=150, height=30)
+    

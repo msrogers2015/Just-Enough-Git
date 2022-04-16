@@ -143,7 +143,7 @@ The Staging menu allows you to add and remove files form the stage as well as ge
 - [x] List Branches
 - [x] Create Branch
 - [x] Switch Branches
-- [ ] Merge Branches
+- [x] Merge Branches
 - [ ] Commit History
     - [ ] Compare Commits
     - [ ] Compare Changes

@@ -62,7 +62,7 @@ class GUI(tk.Frame):
         self.branchmenu.add_command(label='Switch Branch', command=self.branch_commands.switch_branch)
         self.branchmenu.add_command(label='New Branch',command=self.branch_commands.new_branch)
         self.branchmenu.add_separator()
-        self.branchmenu.add_command(label='Merge Branches')
+        self.branchmenu.add_command(label='Merge Branches   (Ctrl+M)', command=self.branch_commands.merge_branch)
         self.branchmenu.add_separator()
         self.branchmenu.add_command(label='Changes on Current Branch')
         self.branchmenu.add_command(label='Compare Branch Log')
