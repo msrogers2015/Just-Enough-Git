@@ -15,10 +15,14 @@ class App(tk.Frame):
         self.root = root
         # Rendering app menu and main window.
         self.gui = gui.GUI(self.root)
+        # Activating key bindings
         self.key_bindings()
+        # SEtting home path for future referencing
         tv.home_path = os.getcwd()
 
     def key_bindings(self):
+        """Creation of useful shortcut commands using various key
+        combination bindings"""
         self.root.bind("<Control-o>", self.gui.setup_commands.init_repo)
         self.root.bind("<Control-O>", self.gui.setup_commands.clone_repo)
         self.root.bind("<Control-c>", self.gui.stage_commands.output_files)
@@ -31,6 +35,7 @@ class App(tk.Frame):
 
 
 if __name__ == "__main__":
+    # If git isn't installed, create a window linking to git website
     if shutil.which("git") is None:
         root = tk.Tk()
         root.title("Git Not Found")
@@ -46,9 +51,11 @@ if __name__ == "__main__":
         error_label.pack()
         get_git_btn.pack()
         root.mainloop()
+    # IF git is installed, create an instance of the application and run it
     else:
         root = tk.Tk()
         root.geometry(f"{tv.width}x{tv.height}")
         root.title("GitPy")
+        root.resizable(False, False)
         app = App(root=root)
         app.mainloop()
