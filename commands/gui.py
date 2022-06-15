@@ -39,6 +39,10 @@ class GUI(tk.Frame):
         # Connecting application menu to the app frame
         root.config(menu=self.menubar)
 
+    def file_tree(self):
+        tree_frame = tk.Frame(self.root, bg='black')
+        tree_frame.pack()
+
     def menu(self):
         '''Creation of command options to be attached to the main
         window of the application'''
@@ -48,7 +52,6 @@ class GUI(tk.Frame):
         self.stagemenu = tk.Menu(self.menubar, tearoff=0)
         self.commitmenu = tk.Menu(self.menubar, tearoff=0)
         self.branchmenu = tk.Menu(self.menubar, tearoff=0)
-        self.trackmenu = tk.Menu(self.menubar, tearoff=0)
         # Setup Menu Options
         self.setupmenu.add_command(
             label="Init Project   (Ctrl+O)",
@@ -124,18 +127,11 @@ class GUI(tk.Frame):
             label="Compare Branch Log",
             command=self.branch_commands.branch_compare)
         self.branchmenu.add_command(label="Compare Branch Changes")
-        # Tracking Menu Options
-        self.trackmenu.add_command(label="Track File")
-        self.trackmenu.add_command(label="Remove File(s)")
-        self.trackmenu.add_command(label="Move File(s)")
-        self.trackmenu.add_separator()
-        self.trackmenu.add_command(label="Show Tracking Log")
         # Adding Sub menus to main menu bar
         self.menubar.add_cascade(label="Setup", menu=self.setupmenu)
         self.menubar.add_cascade(label="Stage", menu=self.stagemenu)
         self.menubar.add_cascade(label="Commit", menu=self.commitmenu)
         self.menubar.add_cascade(label="Branch", menu=self.branchmenu)
-        self.menubar.add_cascade(label="Tracking", menu=self.trackmenu)
 
     def window(self):
         '''Creation of the main content of the application'''
